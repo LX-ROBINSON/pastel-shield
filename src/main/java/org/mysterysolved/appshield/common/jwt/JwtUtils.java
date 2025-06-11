@@ -6,9 +6,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.ws.rs.GET;
 import org.mysterysolved.appshield.entity.User;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,7 +30,7 @@ public class JwtUtils {
                 .withSubject("Login JWT")
                 .withClaim("idUser", user.getId())
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 500L))
+                .withExpiresAt(Date.from(Instant.now().plus(1, ChronoUnit.MINUTES)))
                 .withJWTId(UUID.randomUUID().toString())
                 .sign(ALGORITHM);
     }
