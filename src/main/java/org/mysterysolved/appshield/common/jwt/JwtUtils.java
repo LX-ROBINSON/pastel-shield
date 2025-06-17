@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Singleton;
 import org.mysterysolved.appshield.entity.User;
 
 import java.time.Instant;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Singleton
 public class JwtUtils {
 
     private static final String SECRET_KEY = "ccbec431b0bc6ea74d008b03238f3462aaf94bee3439a4d944f0aaa44b742701";
@@ -30,7 +30,7 @@ public class JwtUtils {
                 .withSubject("Login JWT")
                 .withClaim("idUser", user.getId())
                 .withIssuedAt(new Date())
-                .withExpiresAt(Date.from(Instant.now().plus(1, ChronoUnit.MINUTES)))
+                .withExpiresAt(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
                 .withJWTId(UUID.randomUUID().toString())
                 .sign(ALGORITHM);
     }

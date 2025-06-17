@@ -1,23 +1,29 @@
 package org.mysterysolved.appshield.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
+import jakarta.inject.Inject;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.mysterysolved.appshield.config.DataSourceConfig;
 import org.mysterysolved.appshield.entity.User;
 
 import java.util.Optional;
 
 @ApplicationScoped
-public class AuthRepositoryImpl implements AuthRepository {
+public class AuthRepositoryImpl {
 
-    @PersistenceContext(unitName = "jdbc/pastel_shield")
-    private EntityManager em;
+    private DataSourceConfig source;
 
-    @Override
+    public AuthRepositoryImpl() {
+    }
+
+    @Inject
+    public AuthRepositoryImpl(DataSourceConfig source) {
+        this.source = source;
+    }
+
     public Optional<User> findUserByName(String username) {
-        Query query = em.createNativeQuery("SELECT * FROM user WHERE username=?", User.class);
+        Query query = source.getDataSource().createNativeQuery("SELECT * FROM user WHERE username=?", User.class);
         query.setParameter(1, username);
         try {
             User user = (User) query.getSingleResult();

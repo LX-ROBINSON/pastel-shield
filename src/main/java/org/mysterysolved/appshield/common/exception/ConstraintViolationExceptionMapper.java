@@ -1,5 +1,6 @@
 package org.mysterysolved.appshield.common.exception;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Provider
+@ApplicationScoped
 public class ConstraintViolationExceptionMapper implements ExceptionMapper<ConstraintViolationException> {
 
     @Override

@@ -1,5 +1,6 @@
 package org.mysterysolved.appshield.filter;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 @Provider
 @PreMatching // Indica que este filtro se tiene que ejecutar primero
-@Singleton
+@ApplicationScoped
 public class ConvertMethodHttpFilter implements ContainerRequestFilter {
 
     private static final Map<String, String> methodsHttp = new HashMap<>();

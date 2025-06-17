@@ -8,15 +8,15 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.mysterysolved.appshield.common.dto.RequestFormDTO;
-import org.mysterysolved.appshield.service.AuthService;
+import org.mysterysolved.appshield.service.AuthServiceImpl;
 
 @Path("auth")
 public class AuthController {
 
-    private final AuthService service;
+    private final AuthServiceImpl service;
 
     @Inject
-    public AuthController(AuthService service) {
+    public AuthController(AuthServiceImpl service) {
         this.service = service;
     }
 

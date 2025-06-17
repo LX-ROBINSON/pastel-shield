@@ -1,28 +1,38 @@
 package org.mysterysolved.appshield.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.mysterysolved.appshield.config.DataSourceConfig;
 import org.mysterysolved.appshield.entity.User;
 
 @ApplicationScoped
-public class AuthPersistRepositoryImpl implements AuthPersistRepository {
+public class AuthPersistRepositoryImpl {
 
-    @PersistenceContext(unitName = "jdbc/pastel_shield")
-    private EntityManager em;
+    private DataSourceConfig dataSource;
 
-    @Override
+    public AuthPersistRepositoryImpl() {
+    }
+
+    @Inject
+    public AuthPersistRepositoryImpl(DataSourceConfig dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Transactional
     public User createUser(User tempUser) {
-        em.persist(tempUser);
+        dataSource.getDataSource().persist(tempUser);
         return tempUser;
     }
 
-    @Override
     @Transactional
     public void removeUser(int id) {
-        User proxy = em.getReference(User.class, id);
-        em.remove(proxy);
+        User proxy = dataSource.getDataSource().getReference(User.class, id);
+        dataSource.getDataSource().remove(proxy);
+    }
+
+    @Transactional
+    public User updateUser(User user) {
+        return dataSource.getDataSource().merge(user);
     }
 }
